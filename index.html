@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ทุนวิจัยนักศึกษา 2569 — คณะอักษรศาสตร์ มหาวิทยาลัยศิลปากร</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;500;600;700&family=Sarabun:wght@300;400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+<style>
+  :root{
+    --navy-deep:   #0f2a20;
+    --navy:        #1c4636;
+    --navy-panel:  #24573f;
+    --parchment:   #eef3e7;
+    --parchment-lt:#f8faf3;
+    --gold:        #c69a3a;
+    --gold-bright: #e6c268;
+    --ink-red:     #8a2e2e;
+    --sage:        #6f8464;
+    --line:        rgba(198,154,58,0.32);
+    --text-navy:   #1c4636;
+    --text-muted:  #67735f;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+
+  body{
+    background:
+      radial-gradient(ellipse at 20% -10%, rgba(198,154,58,0.10), transparent 45%),
+      radial-gradient(ellipse at 100% 0%, rgba(198,154,58,0.07), transparent 40%),
+      var(--parchment);
+    background-attachment: fixed;
+    color: var(--text-navy);
+    font-family: 'Sarabun', sans-serif;
+    font-weight: 400;
+    line-height: 1.55;
+    min-height:100vh;
+    padding: 28px 20px 60px;
+  }
+
+  /* faint paper fiber texture */
+  body::before{
+    content:"";
+    position:fixed; inset:0;
+    background-image:
+      repeating-linear-gradient(0deg, rgba(28,70,54,0.015) 0px, transparent 1px, transparent 3px),
+      repeating-linear-gradient(90deg, rgba(28,70,54,0.012) 0px, transparent 1px, transparent 3px);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  .wrap{ max-width: 1280px; margin: 0 auto; position:relative; z-index:1; }
+
+  /* ============ MASTHEAD ============ */
+  .masthead{
+    background: linear-gradient(160deg, var(--navy-deep), var(--navy) 55%, var(--navy-panel));
+    color: var(--parchment-lt);
+    border-radius: 4px;
+    padding: 34px 38px 28px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 18px 40px -18px rgba(15,42,32,0.55), 0 2px 0 var(--gold);
+    border: 1px solid rgba(198,154,58,0.4);
+  }
+  .masthead::before{
+    content:"";
+    position:absolute; inset: 8px;
+    border: 1px solid rgba(230,194,104,0.25);
+    pointer-events:none;
+    border-radius: 2px;
+  }
+  .masthead::after{
+    content:"";
+    position:absolute; right:-60px; top:-60px; width:220px; height:220px;
+    background: radial-gradient(circle, rgba(230,194,104,0.16), transparent 70%);
+  }
+  .mh-top{ display:flex; justify-content:space-between; align-items:flex-start; gap: 20px; flex-wrap:wrap; position:relative; z-index:1;}
+  .mh-eyebrow{
+    font-family:'EB Garamond', serif; font-style:italic; letter-spacing:.14em; text-transform:uppercase;
+    font-size:12px; color: var(--gold-bright); margin-bottom:8px;
+  }
+  .mh-title{
+    font-family:'Noto Serif Thai', serif; font-weight:700; font-size: 32px; letter-spacing:.01em;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.3);
+  }
+  .mh-sub{ font-size:14px; color: rgba(243,234,210,0.72); margin-top: 6px; font-family:'Sarabun',sans-serif; }
+  .sync-badge{
+    display:flex; align-items:center; gap:9px;
+    background: rgba(243,234,210,0.07);
+    border: 1px solid rgba(230,194,104,0.35);
+    padding: 9px 16px; border-radius: 30px; font-size: 12.5px; color: var(--parchment-lt);
+    white-space:nowrap;
+  }
+  .dot{ width:8px; height:8px; border-radius:50%; background:#7fbf7f; box-shadow:0 0 8px #7fbf7f; animation: pulse 2.2s infinite; }
+  .dot.warn{ background:#e0a94b; box-shadow:0 0 8px #e0a94b; animation:none; }
+  .dot.off{ background:#c25b5b; box-shadow:0 0 8px #c25b5b; animation:none; }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:.45;} }
+  .sync-sep{ opacity:.35; }
+  #syncMeta{ color: rgba(243,234,210,0.55); font-size:11.5px; }
+  .refresh-btn{
+    background:none; border:1px solid rgba(230,194,104,0.4); color:var(--gold-bright);
+    border-radius:20px; padding:4px 11px; font-size:11.5px; cursor:pointer; font-family:'Sarabun',sans-serif;
+    margin-left:2px; transition:.15s;
+  }
+  .refresh-btn:hover{ background:rgba(230,194,104,0.12); }
+  .refresh-btn:disabled{ opacity:.5; cursor:default; }
+
+  .seal-row{ display:flex; gap:10px; margin-top:22px; flex-wrap:wrap; position:relative; z-index:1;}
+  .seal-chip{
+    font-family:'EB Garamond', serif; font-size:12.5px; color: var(--parchment-lt);
+    border:1px solid rgba(230,194,104,0.4); border-radius:20px; padding:5px 13px;
+    background: rgba(243,234,210,0.04);
+  }
+  .seal-chip b{ color: var(--gold-bright); font-weight:600; }
+
+  .mh-logo{
+    width:52px; height:52px; flex-shrink:0; border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, rgba(230,194,104,0.22), rgba(243,234,210,0.05));
+    border: 1px solid rgba(230,194,104,0.55);
+    display:flex; align-items:center; justify-content:center;
+    box-shadow: inset 0 0 10px rgba(230,194,104,0.15);
+  }
+  .mh-logo svg{ width:32px; height:32px; }
+  .mh-heading{ display:flex; align-items:flex-start; gap:14px; }
+
+  .year-tabs{ display:flex; gap:8px; margin: 18px 0 26px; flex-wrap:wrap; }
+  .year-tab{
+    font-family:'Sarabun',sans-serif; font-size:13.5px; font-weight:600; cursor:pointer;
+    padding:8px 20px; border-radius:20px; border:1px solid var(--line);
+    background: var(--parchment-lt); color: var(--navy); opacity:0.75;
+    box-shadow: 0 4px 12px -8px rgba(28,70,54,0.35);
+    transition: all .15s ease;
+  }
+  .year-tab:hover{ opacity:1; border-color: var(--gold); }
+  .year-tab.active{
+    background: var(--navy); color: var(--gold-bright); opacity:1; border-color: var(--navy);
+  }
+
+  /* ============ KPI ROW ============ */
+  .kpi-grid{
+    display:grid; grid-template-columns: repeat(5, 1fr); gap:14px; margin-top: 22px;
+  }
+  .kpi-card{
+    background: #ffffff;
+    border: 1px solid rgba(28,70,54,0.08);
+    border-radius: 12px;
+    padding: 18px 18px 16px;
+    position: relative;
+    box-shadow: 0 10px 24px -16px rgba(28,70,54,0.28);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .kpi-card:hover{ transform: translateY(-3px); box-shadow: 0 16px 32px -14px rgba(28,70,54,0.32); }
+  .kpi-card::before{
+    content:""; position:absolute; left:0; top:14px; bottom:14px; width:4px; border-radius:3px; background: #111111;
+  }
+  .kpi-label{ font-size:11.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--text-muted); font-family:'Sarabun',sans-serif; font-weight:600;}
+  .kpi-value{ font-family:'Sarabun', sans-serif; font-weight:700; font-size: 30px; color: #111111; margin-top:6px; }
+  .kpi-note{ font-size:12px; color:var(--text-muted); margin-top:3px; }
+
+  /* KPI card accents by project status */
+  .kpi-card.kpi-active::before{ background:#c69a3a; }
+  .kpi-card.kpi-active .kpi-value{ color:#8a6a1a; }
+  .kpi-card.kpi-closed::before{ background:#2e7d4f; }
+  .kpi-card.kpi-closed .kpi-value{ color:#2e7d4f; }
+  .kpi-card.kpi-refund::before{ background:#a52a2a; }
+  .kpi-card.kpi-refund .kpi-value{ color:#a52a2a; }
+
+  /* ============ SECTION ============ */
+  .section-title{
+    display:flex; align-items:center; gap:12px;
+    margin: 40px 0 16px;
+  }
+  .section-title .num{
+    font-family:'EB Garamond', serif; font-style:italic; color: var(--gold); font-size:14px;
+    border:1px solid var(--gold); width:26px; height:26px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; flex-shrink:0;
+  }
+  .section-title h2{
+    font-family:'Noto Serif Thai', serif; font-weight:600; font-size:19px; color:var(--navy);
+  }
+  .section-title .rule{ flex:1; height:1px; background: linear-gradient(90deg, var(--line), transparent); }
+  .section-icon{ display:inline-flex; align-items:center; justify-content:center; width:20px; height:20px; margin-left:8px; color: var(--gold); vertical-align:-4px; }
+  .section-icon svg{ width:100%; height:100%; }
+
+  .panel{
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+
+  .chart-tile{
+    background:#ffffff; border:1px solid rgba(28,70,54,0.08); border-radius:12px;
+    padding:18px 18px 14px; box-shadow: 0 10px 26px -18px rgba(28,70,54,0.3);
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .chart-tile:hover{ transform: translateY(-2px); box-shadow: 0 16px 34px -16px rgba(28,70,54,0.34); }
+
+  .charts-grid{ display:grid; grid-template-columns: 1.3fr 1fr; gap:16px; }
+  .charts-grid2{ display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-top:16px; }
+  .charts-grid-3col{ grid-template-columns: 1.15fr 1fr 0.9fr; }
+  .chart-box{ height: 260px; position:relative; }
+  .chart-box.scrollable{ overflow-y:auto; overflow-x:hidden; max-height:420px; }
+  .chart-title{ font-family:'Sarabun',sans-serif; font-weight:600; font-size:13.5px; color:var(--navy); margin-bottom:10px; }
+
+
+  /* ============ FILTER BAR ============ */
+  .filter-bar{
+    display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin-bottom:16px;
+  }
+  .filter-bar input[type=text]{
+    flex:1; min-width:200px;
+    padding:10px 14px; border-radius:3px; border:1px solid var(--line);
+    background: #fffdf6; font-family:'Sarabun',sans-serif; font-size:13.5px; color:var(--navy);
+  }
+  select{
+    padding:10px 12px; border-radius:3px; border:1px solid var(--line);
+    background:#fffdf6; font-family:'Sarabun',sans-serif; font-size:13px; color:var(--navy);
+  }
+  input,select{ outline:none; }
+  input:focus,select:focus{ border-color: var(--gold); box-shadow:0 0 0 3px rgba(198,154,58,0.15); }
+
+  /* ============ TABLE ============ */
+  .table-scroll{ overflow-x:auto; border:1px solid rgba(28,70,54,0.1); border-radius:10px;}
+  table{ width:100%; border-collapse:collapse; font-size:13px; table-layout:fixed; }
+  thead th{
+    background: var(--navy); color: var(--parchment-lt);
+    text-align:left; padding:11px 10px; font-weight:600; font-size:11.5px;
+    font-family:'Sarabun',sans-serif; letter-spacing:.02em; white-space:normal; word-wrap:break-word;
+    position:sticky; top:0;
+  }
+  thead th:first-child{ border-top-left-radius:2px; }
+  tbody td{ padding:10px 10px; border-bottom:1px solid rgba(28,70,54,0.08); vertical-align:top; word-wrap:break-word; overflow-wrap:break-word; word-break:break-word; overflow:hidden; }
+  tbody tr:nth-child(even){ background: rgba(198,154,58,0.045); }
+  tbody tr:hover{ background: rgba(198,154,58,0.11); }
+  .proj-title{ font-weight:600; color:var(--navy); }
+  .proj-en{ font-size:11.5px; color:var(--text-muted); font-style:italic; margin-top:2px; }
+  .badge{
+    display:inline-block; max-width:100%; padding:3px 10px; border-radius:14px; font-size:11px; font-weight:600;
+    white-space:normal; word-break:break-word; line-height:1.3; text-align:center;
+  }
+  .badge.active{ background: rgba(198,154,58,0.18); color:#8a6a1a; border:1px solid rgba(198,154,58,0.4);}
+  .badge.closed{ background: rgba(111,132,100,0.18); color: var(--sage); border:1px solid rgba(111,132,100,0.4);}
+  .badge.refund{ background: rgba(138,46,46,0.13); color: var(--ink-red); border:1px solid rgba(138,46,46,0.35);}
+
+  /* row text color by status */
+  tr.row-refund td, tr.row-refund td *{ color:#a52a2a !important; }
+  tr.row-active td, tr.row-active td *{ color:#111111 !important; }
+  tr.row-closed td, tr.row-closed td *{ color:#2e7d4f !important; }
+  .steps-mini{ display:flex; flex-wrap:wrap; gap:3px; }
+  .step-dot{ width:8px; height:8px; border-radius:2px; background: rgba(28,70,54,0.13); flex-shrink:0; }
+  .step-dot.done{ background: var(--gold); }
+  .step-current-label{ font-size:10.5px; color:var(--navy); margin-top:5px; white-space:normal; line-height:1.35; }
+
+  .attach-icon{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:30px; height:30px; border-radius:50%;
+    background: rgba(198,154,58,0.14); border:1px solid rgba(198,154,58,0.5);
+    color: var(--navy) !important; text-decoration:none; cursor:pointer;
+  }
+  .attach-icon:hover{ background: rgba(198,154,58,0.28); }
+  .budget-cell{ font-family:'EB Garamond', serif; font-weight:600; color:var(--navy); }
+
+  footer{
+    text-align:center; margin-top:44px; padding-top:18px; border-top:1px solid var(--line);
+    font-size:12px; color:var(--text-muted); font-family:'EB Garamond',serif; font-style:italic;
+  }
+
+  .funding-note{
+    margin-top:26px; padding:20px 24px; text-align:left;
+    background:#ffffff; border:1px solid rgba(28,70,54,0.1); border-radius:10px;
+    box-shadow: 0 10px 24px -18px rgba(28,70,54,0.28);
+    font-family:'Sarabun',sans-serif; font-style:normal;
+  }
+  .funding-note .fn-title{
+    font-family:'Noto Serif Thai', serif; font-weight:600; font-size:14.5px; color:var(--navy);
+    margin-bottom:10px;
+  }
+  .funding-note ol{ margin:0; padding-left:20px; }
+  .funding-note li{ font-size:12.5px; color:var(--text-navy); line-height:1.65; margin-bottom:4px; }
+  .funding-note li:last-child{ margin-bottom:0; }
+
+  @media (max-width: 640px){
+    .funding-note{ padding:16px 16px; margin-top:20px; }
+    .funding-note .fn-title{ font-size:13px; }
+    .funding-note li{ font-size:12px; }
+  }
+
+  html{ overflow-x:hidden; }
+
+  @media (max-width: 980px){
+    .kpi-grid{ grid-template-columns: repeat(2,1fr); }
+    .charts-grid{ grid-template-columns: 1fr; }
+    .charts-grid-3col{ grid-template-columns: 1fr; }
+    .charts-grid2{ grid-template-columns: 1fr; }
+    .mh-title{ font-size:24px; }
+  }
+
+  /* ============ MOBILE (≤640px) ============ */
+  @media (max-width: 640px){
+    body{ padding: 14px 10px 40px; }
+    .wrap{ max-width:100%; }
+
+    .masthead{ padding:20px 16px 18px; border-radius:3px; }
+    .mh-heading{ gap:10px; }
+    .mh-eyebrow{ font-size:10px; letter-spacing:.1em; }
+    .mh-title{ font-size:19px; line-height:1.3; }
+    .mh-sub{ font-size:11.5px; }
+    .mh-top{ gap:12px; }
+    .sync-badge{ white-space:normal; font-size:10.5px; padding:7px 11px; gap:6px; width:100%; }
+    #syncMeta{ font-size:10px; }
+    .refresh-btn{ font-size:10.5px; padding:3px 9px; }
+
+    .seal-row{ margin-top:16px; gap:6px; }
+    .seal-chip{ font-size:11px; padding:4px 10px; }
+
+    .year-tabs{ gap:6px; margin:14px 0 20px; }
+    .year-tab{ padding:7px 14px; font-size:12.5px; flex:1 1 auto; text-align:center; }
+
+    .kpi-grid{ grid-template-columns: repeat(2,1fr); gap:10px; margin-top:16px; }
+    .kpi-card{ padding:14px 14px 12px; }
+    .kpi-label{ font-size:10.5px; }
+    .kpi-value{ font-size:22px; }
+    .kpi-note{ font-size:11px; }
+
+    .section-title{ margin:28px 0 12px; gap:9px; }
+    .section-title h2{ font-size:15.5px; }
+    .section-title .num{ width:22px; height:22px; font-size:12px; }
+
+    .chart-tile{ padding:14px 12px 12px; border-radius:10px; }
+    .chart-box{ height:220px; }
+    .chart-title{ font-size:12.5px; }
+
+    .filter-bar{ flex-direction:column; align-items:stretch; gap:8px; }
+    .filter-bar input[type=text]{ min-width:0; width:100%; }
+    select{ width:100%; }
+
+    /* ---- Table -> stacked cards on mobile ---- */
+    .table-scroll{ overflow-x:visible; border:none; }
+    table{ table-layout:auto; }
+    colgroup{ display:none; }
+    thead{ display:none; }
+    tbody, tr, td{ display:block; width:100% !important; }
+    tbody tr{
+      background:#fff; border:1px solid rgba(28,70,54,0.12); border-radius:10px;
+      margin-bottom:12px; padding:12px 14px 6px;
+      box-shadow: 0 8px 18px -14px rgba(28,70,54,0.35);
+    }
+    tbody tr:nth-child(even){ background:#fff; }
+    tbody td{
+      padding:8px 0; border-bottom:1px dashed rgba(28,70,54,0.1);
+    }
+    tbody td:last-child{ border-bottom:none; }
+    tbody td[data-label]::before{
+      content: attr(data-label);
+      display:block; font-size:10px; font-weight:700; text-transform:uppercase;
+      letter-spacing:.05em; color:var(--gold); margin-bottom:3px; font-family:'Sarabun',sans-serif;
+    }
+    tbody td[data-label="#"]{ display:flex; align-items:center; gap:6px; border-bottom:none; padding-bottom:0; }
+    tbody td[data-label="#"]::before{ content:"รายการที่ "; display:inline; margin-bottom:0; }
+
+    footer{ font-size:11px; margin-top:32px; }
+  }
+
+  @media (max-width: 400px){
+    .kpi-grid{ grid-template-columns: 1fr 1fr; }
+    .mh-title{ font-size:17px; }
+    .year-tab{ padding:6px 10px; font-size:11.5px; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- MASTHEAD -->
+  <div class="masthead">
+    <div class="mh-top">
+      <div class="mh-heading">
+        <div>
+          <div class="mh-eyebrow">คณะอักษรศาสตร์ · มหาวิทยาลัยศิลปากร</div>
+          <div class="mh-title">ทุนวิจัยนักศึกษา<span id="mhYearWrap" style="display:none;"> ปีการศึกษา <span id="mhYear">2569</span></span></div>
+        </div>
+      </div>
+      <div class="sync-badge"><span class="dot" id="syncDot"></span><span id="syncText">กำลังเชื่อมต่อฐานข้อมูล…</span><span class="sync-sep">·</span><span id="syncMeta"></span><button class="refresh-btn" id="refreshBtn" title="ดึงข้อมูลล่าสุดตอนนี้">↻ รีเฟรช</button></div>
+    </div>
+  </div>
+
+  <div class="year-tabs" id="yearTabs">
+    <button class="year-tab active" data-year="overall">ภาพรวม</button>
+    <button class="year-tab" data-year="2569">2569</button>
+    <button class="year-tab" data-year="2568">2568</button>
+    <button class="year-tab" data-year="2567">2567</button>
+    <button class="year-tab" data-year="2566">2566</button>
+  </div>
+
+  <!-- YEAR VIEW (2567 / 2568 / 2569) -->
+  <div id="yearView" style="display:none;">
+    <!-- KPI -->
+    <div class="kpi-grid" id="kpiGrid"></div>
+
+    <!-- OVERVIEW CHARTS -->
+    <div class="section-title"><div class="num">1</div><h2>ภาพรวมสถานะโครงการ</h2><div class="rule"></div></div>
+    <div class="panel">
+      <div class="charts-grid charts-grid-3col">
+        <div class="chart-tile">
+          <div class="chart-title">จำนวนโครงการตามหลักสูตร</div>
+          <div class="chart-box"><canvas id="curriculumChart"></canvas></div>
+        </div>
+        <div class="chart-tile">
+          <div class="chart-title">สถานะการดำเนินงาน</div>
+          <div class="chart-box"><canvas id="statusChart"></canvas></div>
+        </div>
+        <div class="chart-tile">
+          <div class="chart-title">ระดับการศึกษา</div>
+          <div class="chart-box"><canvas id="degreeChart"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ADVISOR WORKLOAD -->
+    <div class="section-title"><div class="num">2</div><h2>ที่ปรึกษาโครงการ</h2><div class="rule"></div></div>
+    <div class="panel">
+      <div class="chart-tile">
+        <div class="chart-box scrollable" id="advisorBox"><div id="advisorInner" style="position:relative; height:280px;"><canvas id="advisorChart"></canvas></div></div>
+      </div>
+    </div>
+
+    <!-- TABLE -->
+    <div class="section-title"><div class="num">3</div><h2>โครงการวิจัยทั้งหมด</h2><div class="rule"></div></div>
+    <div class="panel">
+      <div class="chart-tile">
+      <div class="filter-bar">
+        <input type="text" id="searchInput" placeholder="ค้นหาชื่อโครงการ ผู้รับทุน หรือรหัสนักศึกษา…">
+        <select id="advisorFilter"><option value="">ทุกอาจารย์ที่ปรึกษา</option></select>
+        <select id="curriculumFilter"><option value="">ทุกหลักสูตร</option></select>
+        <select id="statusFilter"><option value="">ทุกสถานะ</option></select>
+      </div>
+      <div class="table-scroll">
+        <table>
+        <colgroup>
+          <col style="width:3.5%"><col style="width:20%"><col style="width:9%"><col style="width:6%"><col style="width:11%">
+          <col style="width:7%"><col style="width:7.5%"><col style="width:7%"><col style="width:12.5%"><col style="width:11.5%"><col style="width:5%">
+        </colgroup>
+        <thead>
+          <tr>
+            <th>#</th><th>ชื่อโครงการ</th><th>หลักสูตร</th><th>ระดับ</th><th>ผู้รับทุน / ที่ปรึกษา</th>
+            <th>งบประมาณ</th><th>ระยะเวลาโครงการ</th><th>ระยะเวลาตามสัญญา</th><th>สถานะ</th><th>ขั้นตอน</th><th>Link</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+      </table>
+    </div>
+    </div>
+    </div>
+  </div>
+  <!-- /YEAR VIEW -->
+
+  <!-- OVERALL VIEW (ภาพรวมทุกปี) -->
+  <div id="overallView">
+    <div class="section-title"><div class="num">1</div><h2>จำนวนทุนวิจัยนักศึกษารายปี<span class="section-icon" title="โครงการ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></span></h2><div class="rule"></div></div>
+    <div class="panel">
+      <div class="chart-tile">
+      <div class="chart-title">จำนวนโครงการทั้งหมด</div>
+      <div class="chart-box" style="height:280px; padding-top:14px;"><canvas id="trendCountChart"></canvas></div>
+
+      <div class="chart-title" style="margin-top:26px;">จำนวนโครงการที่ปิดแล้ว</div>
+      <div class="chart-box" style="height:280px; padding-top:14px;"><canvas id="trendDoneChart"></canvas></div>
+
+      <div class="chart-title" style="margin-top:26px;">อัตราการปิดโครงการ (%)</div>
+      <div class="chart-box" style="height:280px; padding-top:14px;"><canvas id="trendCloseRateChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="section-title"><div class="num">2</div><h2>งบประมาณ (บาท)<span class="section-icon" title="งบประมาณ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5c0-1.1 1.1-2 2.5-2s2.5.9 2.5 2c0 2.5-5 1.5-5 4 0 1.1 1.1 2 2.5 2s2.5-.9 2.5-2"/></svg></span></h2><div class="rule"></div></div>
+    <div class="panel">
+      <div class="chart-tile">
+      <div class="chart-box" style="height:300px; padding-top:14px;"><canvas id="trendBudgetChart"></canvas></div>
+      </div>
+    </div>
+  </div>
+  <!-- /OVERALL VIEW -->
+
+  <div class="funding-note">
+    <div class="fn-title">การสนับสนุนเงินทุนอุดหนุนสำหรับงานวิจัยและงานสร้างสรรค์</div>
+    <ol>
+      <li>ทุนอุดหนุนการวิจัยสำหรับนักศึกษาระดับบัณฑิตศึกษา จำนวนปีงบประมาณละ 15 ทุน ทุนละ 45,000 บาท ระยะเวลาดำเนินการ 2 ปี</li>
+      <li>ทุนอุดหนุนการวิจัยนักศึกษาระดับปริญญาตรี จำนวนปีงบประมาณละ 65 ทุน ทุนละ 10,000 บาท ระยะเวลาดำเนินการ 1 ปี</li>
+    </ol>
+  </div>
+
+  <footer>ดึงข้อมูลอัตโนมัติทุก 60 วินาที (หยุดชั่วคราวเมื่อสลับแท็บ) · หรือกด ↻ รีเฟรช เพื่อดึงข้อมูลทันที · ที่มา: ชีต "ทุนวิจัยนักศึกษา <span id="footerYear">2569</span>"</footer>
+</div>
+
+<script>
+/* ================= CONFIG ================= */
+const SHEET_ID = "1eCyVmqnHmmiZpedlyu3KpwDapQjYLzIQKb_7uVOpPV0";
+const YEARS = {
+  "2566": { label:"2566", sheetId:SHEET_ID, gid:"1308920059" },
+  "2567": { label:"2567", sheetId:SHEET_ID, gid:"596219778" },
+  "2568": { label:"2568", sheetId:SHEET_ID, gid:"779872363" },
+  "2569": { label:"2569", sheetId:SHEET_ID, gid:"140727203" }
+};
+let currentYear = "2569";
+function gvizUrlFor(year){
+  const y = YEARS[year];
+  if(!y || !y.sheetId || !y.gid) return null;
+  return `https://docs.google.com/spreadsheets/d/${y.sheetId}/gviz/tq?gid=${y.gid}`;
+}
+
+// Thai header labels -> internal keys (resilient to column reorder)
+const HEADER_MAP = {
+  "ลำดับ":"no",
+  "ชื่อโครงการวิจัย":"title_th",
+  "ชื่อโครงการวิจัยภาษาอังกฤษ":"title_en",
+  "ผู้รับทุน":"recipient",
+  "หลักสูตร":"curriculum",
+  "รหัสนักศึกษา":"student_id",
+  "อาจารย์ที่ปรึกษา":"advisor",
+  "ระยะเวลาโครงการ":"duration",
+  "ระยะเวลาตามสัญญา":"contract_period",
+  "งบประมาณ (บาท)":"budget",
+  "สถานะการดำเนินงาน":"status",
+  "สมุดบัญชี":"bank",
+  "เบอร์โทร":"phone",
+  "อีเมล":"email",
+  "ระดับ":"degree",
+  "ระดับการเผยแพร่":"publish_level",
+  "ส่งข้อเสนอโครงการ":"step_propose",
+  "ที่ประชุมอนุกรรมการ /เวียนพิจารณาอนุมัติ":"step_committee",
+  "ทปก. อนุมัติ":"step_tpk_approve",
+  "เซ็นสัญญา":"step_sign",
+  "เบิกเงินงวดที่ 1":"step_tranche1",
+  "รายงานความก้าวหน้า 6 เดือน":"step_progress",
+  "ขอขยายเวลา":"step_extension",
+  "รายงานฉบับสมบูรณ์":"step_final_report",
+  "เบิกเงินงวดสุดท้าย":"step_tranche_final",
+  "ปิดโครงการ":"step_close",
+  "คืนดอกเบี้ย":"step_interest_return",
+  "ไฟล์เอกสารแนบ (ชื่อไฟล์/ลิงก์)":"attachment",
+  "Link":"attachment"
+};
+const STEP_KEYS = ["step_propose","step_committee","step_tpk_approve","step_sign","step_tranche1","step_progress","step_extension","step_final_report","step_tranche_final","step_close","step_interest_return"];
+const STEP_LABELS = {
+  step_propose:"ส่งข้อเสนอโครงการ",
+  step_committee:"ที่ประชุมอนุกรรมการ / เวียนพิจารณาอนุมัติ",
+  step_tpk_approve:"ทปก. อนุมัติ",
+  step_sign:"เซ็นสัญญา",
+  step_tranche1:"เบิกเงินงวดที่ 1",
+  step_progress:"รายงานความก้าวหน้า 6 เดือน",
+  step_extension:"ขอขยายเวลา",
+  step_final_report:"รายงานฉบับสมบูรณ์",
+  step_tranche_final:"เบิกเงินงวดสุดท้าย",
+  step_close:"ปิดโครงการ",
+  step_interest_return:"คืนดอกเบี้ย"
+};
+
+/* ================= FALLBACK SNAPSHOT (15 records, captured from live sheet) ================= */
+// Fallback snapshot data — only available for 2569 so far.
+const FALLBACK_BY_YEAR = { "2569": null }; // "2569" array assigned right below
+const FALLBACK = [
+{no:1,title_th:"ลักษณะและบทบาทของตัวละครปฏิปักษ์ในพระราชนิพนธ์รัชกาลที่ 6",title_en:"CHARACTERISTICS AND ROLES OF ANTAGONIST CHARACTERS IN KING RAMA VI'S LITERARY WORKS",recipient:"นายอรรถพล โสตะพราหมณ์",curriculum:"ภาษาไทย",student_id:"650520013",advisor:"อาจารย์ ดร.ทศพล ศรีพุ่ม",duration:"1 ปี",contract_period:"",budget:25000,status:"อยู่ระหว่างดำเนินการ",degree:"บัณฑิตศึกษา",publish_level:"วารสารระดับชาติ",attachment:"-",step_propose:0,step_committee:0,step_tpk_approve:0,step_sign:0,step_tranche1:0,step_progress:0,step_extension:0,step_final_report:0,step_tranche_final:0,step_close:0,step_interest_return:0},
+{no:2,title_th:"พลวัตของเครือข่ายผู้กระทำการในกระบวนการปรับตัวของสุราชุมชนภายใต้ข้อจำกัดทางกฎหมาย: กรณีศึกษาบรั่นดีเมล่อนเนภา",title_en:"The Dynamics of Actor–Networks in the Adaptation of Thai Local Spirits under Legal Restrictions: NAPA Melon Brandy",recipient:"นางสาวณัฐณิชา สวิง  นางสาวขวัญชนก ภู่ขวัญ  นางสาวญาณิศา ศักดิ์สิริโกศล  นางสาวนุวาลา พรหมากร  นางสาวอธัญญา จาดสิงห์  นางสาวอริสา กิริยา",curriculum:"สังคมศาสตร์การพัฒนา",student_id:"650510165",advisor:"ผู้ช่วยศาสตราจารย์ ดร.ชนัญญ์ เมฆหมอก",duration:"4 เดือน",contract_period:"",budget:10000,status:"อยู่ระหว่างดำเนินการ",degree:"ปริญญาตรี",publish_level:"",attachment:"-",step_propose:0,step_committee:0,step_tpk_approve:0,step_sign:0,step_tranche1:0,step_progress:0,step_extension:0,step_final_report:0,step_tranche_final:0,step_close:0,step_interest_return:0},
+{no:3,title_th:"สิ่งแวดล้อมกับความศักดิ์สิทธิ์: การบริหารจัดการสักการสถานของจีนในย่านเจริญไชย",title_en:"Environment and Sacredness: The Management of Chinese Shrines in Charoen Chai",recipient:"นางสาวณัฐนิชา ผลมงคลวัฒน์  นางสาวชลธิชา คงกระพันธ์  นางสาวแพรวา กะสิ  นางสาวริณภัทร ฐินปุตโต  นางสาวทักษพร พลหาร",curriculum:"สังคมศาสตร์การพัฒนา",student_id:"650510167",advisor:"ผู้ช่วยศาสตราจารย์ ดร.ชนัญญ์ เมฆหมอก",duration:"4 เดือน",contract_period:"",budget:10000,status:"อยู่ระหว่างดำเนินการ",degree:"ปริญญาตรี",publish_level:"วารสารระดับชาติ",attachment:"-",step_propose:0,step_committee:0,step_tpk_approve:0,step_sign:0,step_tranche1:0,step_progress:0,step_extension:0,step_final_report:0,step_tranche_final:0,step_close:0,step_interest_return:0},
+{no:4,title_th:"อัตลักษณ์ท้องถิ่น และวิถีชีวิตของผู้คนบนเกาะเชจูที่ปรากฏผ่านสื่อบันเทิงเกาหลีใต้ : กรณีศึกษาซีรีส์ When Life Gives You Tangerines",title_en:"Local Identity and Lifestyles on Jeju Island as Portrayed in South Korean Entertainment Media",recipient:"นางสาวพรธิภา ภาคอำพร",curriculum:"เอเชียศึกษา",student_id:"650510979",advisor:"ผู้ช่วยศาสตราจารย์ตะวัน วรรณรัตน์",duration:"4 เดือน",contract_period:"",budget:10000,status:"ปิดโครงการ",degree:"ปริญญาตรี",publish_level:"Proceedings",attachment:"-",step_propose:1,step_committee:1,step_tpk_approve:1,step_sign:1,step_tranche1:1,step_progress:1,step_extension:0,step_final_report:1,step_tranche_final:1,step_close:1,step_interest_return:1},
+{no:5,title_th:"การศึกษาปรากฏการณ์แฟนคลับที่แสดงบทบาทความเป็นแม่ในประเทศไทย: กรณีศึกษาแฟนคลับวง NCT DREAM",title_en:"The Phenomenon of Maternal Fan Behavior in Thailand: A Case Study of NCT DREAM Fans",recipient:"นางสาวขวัญจิรา แสงโพธิ์แก้ว",curriculum:"เอเชียศึกษา",student_id:"650510120",advisor:"ผู้ช่วยศาสตราจารย์ตะวัน วรรณรัตน์",duration:"5 เดือน",contract_period:"",budget:10000,status:"ปิดโครงการ",degree:"ปริญญาตรี",publish_level:"Proceedings",attachment:"-",step_propose:1,step_committee:1,step_tpk_approve:1,step_sign:1,step_tranche1:1,step_progress:1,step_extension:0,step_final_report:1,step_tranche_final:1,step_close:1,step_interest_return:1},
+{no:6,title_th:"การศึกษากลยุทธ์การตลาดของวง WayV ในตลาดจีน",title_en:"The Marketing Strategies of WayV in the Chinese Market",recipient:"นางสาวนิภาดา วรสาร",curriculum:"เอเชียศึกษา",student_id:"650510124",advisor:"ผู้ช่วยศาสตราจารย์ตะวัน วรรณรัตน์",duration:"5 เดือน",contract_period:"",budget:10000,status:"ปิดโครงการ",degree:"ปริญญาตรี",publish_level:"Proceedings",attachment:"-",step_propose:1,step_committee:1,step_tpk_approve:1,step_sign:1,step_tranche1:1,step_progress:1,step_extension:0,step_final_report:1,step_tranche_final:1,step_close:1,step_interest_return:1},
+{no:7,title_th:"ผลกระทบต่อธุรกิจขนาดกลางและขนาดย่อมจากเขตการค้าเสรีไทย - จีน กรณีศึกษา : สินค้าอุปโภคบริโภค ย่านสำเพ็ง",title_en:"Impact of the Thai-China FTA on SMEs in the Consumer Goods Sector: A Case Study of the Sampeng Market",recipient:"นางสาวศุภการ นงนุช",curriculum:"เอเชียศึกษา",student_id:"650510874",advisor:"รองศาสตราจารย์ ดร.อภิเศก ปั้นสุวรรณ",duration:"4 เดือน",contract_period:"",budget:10000,status:"อยู่ระหว่างดำเนินการ",degree:"ปริญญาตรี",publish_level:"SMARTS",attachment:"-",step_propose:0,step_committee:0,step_tpk_approve:0,step_sign:0,step_tranche1:0,step_progress:0,step_extension:0,step_final_report:0,step_tranche_final:0,step_close:0,step_interest_return:0},
+{no:8,title_th:"Kraft: การสื่อสารเรื่องเล่าบางกะเจ้าผ่านงานคราฟต์",title_en:"Kraft: Bang Kachao's stories through the creative art",recipient:"นางสาวญาณินี แสงสุรัตน์  นายณัฏฐ์ อนันต์ธนะเทวี",curriculum:"ภาษาตะวันตก",student_id:"650510384",advisor:"อาจารย์อาภากร หาญนภาชีวิน",duration:"4 เดือน",contract_period:"",budget:10000,status:"คืนทุนวิจัย",degree:"ปริญญาตรี",publish_level:"",attachment:"-",step_propose:0,step_committee:0,step_tpk_approve:0,step_sign:0,step_tranche1:0,step_progress:0,step_extension:0,step_final_report:0,step_tranche_final:0,step_close:0,step_interest_return:0},
+{no:9,title_th:"บอร์ดเกมเพื่อการเรียนรู้เศรษฐกิจ การค้า การคมนาคมและอุตสาหกรรมของเมืองลุ่มแม่น้ำไรน์ผ่านไวยากรณ์ภาษาเยอรมันระดับ B1",title_en:"An Educational Board Game for Learning about the Economics, Trade, Transportation, and Industry of the Rhine River Cities",recipient:"นางสาวปัณฑารีย์ เก้าเอี้ยน  นางสาวภัทรนภัส ศรีสุวรรณ์  นางสาวกุลนันท์ มัชมี  นางสาวจิตตินี ปีติ  นางสาวพัชรินทร์ เหมือนมณี",curriculum:"ภาษาตะวันตก",student_id:"650510512",advisor:"อาจารย์อาภากร หาญนภาชีวิน",duration:"4 เดือน",contract_period:"",budget:7000,status:"อยู่ระหว่างดำเนินการ",degree:"ปริญญาตรี",publish_level:"",attachment:"-",step_propose:0,step_committee:0,step_tpk_approve:0,step_sign:0,step_tranche1:0,step_progress:0,step_extension:0,step_final_report:0,step_tranche_final:0,step_close:0,step_interest_return:0},
+{no:10,title_th:"มโนทัศน์สงครามในวรรณคดีสมัยอยุธยาและสมัยรัตนโกสินทร์ตอนต้น",title_en:"The Concept of War in Literature of Ayutthaya and Early Rattanakosin",recipient:"นางสาวปฏิญญา บุญชู",curriculum:"ภาษาไทย",student_id:"660520006",advisor:"ผู้ช่วยศาสตราจารย์ ดร.ปัทมา ฑีฆประเสริฐกุล",duration:"1 ปี",contract_period:"",budget:45000,status:"อยู่ระหว่างดำเนินการ",degree:"บัณฑิตศึกษา",publish_level:"",attachment:"-",step_propose:0,step_committee:0,step_tpk_approve:0,step_sign:0,step_tranche1:0,step_progress:0,step_extension:0,step_final_report:0,step_tranche_final:0,step_close:0,step_interest_return:0},
+{no:11,title_th:"การโฆษณาชวนเชื่อของฝ่ายสัมพันธมิตรและฝ่ายมหาอำนาจกลางในสยาม สมัยสงครามโลก ครั้งที่ 1",title_en:"Propaganda of the Allies and the Central Powers in Siam during World War I, 1914–1918",recipient:"นายวัศพล ธรรมรักษา",curriculum:"ประวัติศาสตร์",student_id:"650530006",advisor:"อาจารย์ ดร.รัชตพงศ์ มะลิทอง",duration:"1 ปี",contract_period:"",budget:45000,status:"อยู่ระหว่างดำเนินการ",degree:"บัณฑิตศึกษา",publish_level:"",attachment:"-",step_propose:0,step_committee:0,step_tpk_approve:0,step_sign:0,step_tranche1:0,step_progress:0,step_extension:0,step_final_report:0,step_tranche_final:0,step_close:0,step_interest_return:0},
+{no:12,title_th:"กลวิธีทางภาษาในการให้สัมภาษณ์ของคู่รักในรายการ Club Friday Show: กรณีศึกษาปัจจัยเพศ",title_en:"Linguistic Strategies in Interviews of Couples on Club Friday Show: A Case Study of Gender Factors",recipient:"นางสาวนันทวัชร์ อำพลจันทน์",curriculum:"ภาษาไทย",student_id:"660520005",advisor:"อาจารย์ ดร.สุจิตรา ศิริพาณิชย์",duration:"2 ปี",contract_period:"",budget:45000,status:"อยู่ระหว่างดำเนินการ",degree:"บัณฑิตศึกษา",publish_level:"",attachment:"-",step_propose:0,step_committee:0,step_tpk_approve:0,step_sign:0,step_tranche1:0,step_progress:0,step_extension:0,step_final_report:0,step_tranche_final:0,step_close:0,step_interest_return:0},
+{no:13,title_th:"การศึกษานวนิยายแนวเกมเอาชีวิตรอดชุดบิงโก เกมฆาตกรของปราปต์",title_en:"A study of the survival game novel Bingo, The Killer Game by Prapt",recipient:"นายพิรักษ์ สมสกุล",curriculum:"ภาษาไทย",student_id:"670520011",advisor:"ผู้ช่วยศาสตราจารย์ ดร.อารียา หุตินทะ",duration:"1 ปี",contract_period:"",budget:45000,status:"อยู่ระหว่างดำเนินการ",degree:"บัณฑิตศึกษา",publish_level:"",attachment:"-",step_propose:0,step_committee:0,step_tpk_approve:0,step_sign:0,step_tranche1:0,step_progress:0,step_extension:0,step_final_report:0,step_tranche_final:0,step_close:0,step_interest_return:0},
+{no:14,title_th:"อิทธิพลของกระบวนการปลดปล่อยอาณานิคมต่อการให้ความหมายและการบูรณะโบราณสถานในสมัยจอมพล ป.พิบูลสงคราม ยุคที่ 2",title_en:"The Influence of Decolonization on the Construction of Meaning and the Restoration of Historic Sites During Field Marshal Plaek Pibulsongkhram's Second Premiership, 1948–1957",recipient:"นายธนัชชา ชำนาญเวช",curriculum:"ประวัติศาสตร์",student_id:"650520010",advisor:"อาจารย์ ดร.รัชตพงศ์ มะลิทอง",duration:"1 ปี",contract_period:"",budget:45000,status:"อยู่ระหว่างดำเนินการ",degree:"บัณฑิตศึกษา",publish_level:"",attachment:"-",step_propose:0,step_committee:0,step_tpk_approve:0,step_sign:0,step_tranche1:0,step_progress:0,step_extension:0,step_final_report:0,step_tranche_final:0,step_close:0,step_interest_return:0},
+{no:15,title_th:"ช้างไทย : ความสัมพันธ์ระหว่างภาษากับอุดมการณ์ในสื่อร่วมสมัย",title_en:"THAI ELEPHANTS: THE RELATIONSHIP BETWEEN LANGUAGE AND IDEOLOGY IN CONTEMPORARY MEDIA",recipient:"นางสาวกัญญรัตน์ ทรงวรวิทย์",curriculum:"ภาษาไทย",student_id:"660530001",advisor:"ผู้ช่วยศาสตราจารย์ ดร.สุนทรี โชติดิลก",duration:"2 ปี",contract_period:"",budget:45000,status:"อยู่ระหว่างดำเนินการ",degree:"บัณฑิตศึกษา",publish_level:"",attachment:"-",step_propose:1,step_committee:0,step_tpk_approve:0,step_sign:0,step_tranche1:0,step_progress:0,step_extension:0,step_final_report:0,step_tranche_final:0,step_close:0,step_interest_return:0}
+];
+FALLBACK_BY_YEAR["2569"] = FALLBACK;
+
+const CURRICULUM_COLORS = {
+  "ภาษาไทย":"#8a2e2e", "สังคมศาสตร์การพัฒนา":"#6f8464",
+  "เอเชียศึกษา":"#c69a3a", "ภาษาตะวันตก":"#3f7a63", "ประวัติศาสตร์":"#5b4636"
+};
+const CURRICULUM_FALLBACK_PALETTE = [
+  "#8a8060", "#4a5d8a", "#a15c3e", "#5a7a8a", "#7a4f8a",
+  "#3f6b4a", "#9c6b1f", "#6b4f6b", "#2f6f6f", "#8a4a6b"
+];
+// Builds a color map for the curricula actually present, guaranteeing no two share a color.
+// Wraps a label into multiple short lines so Chart.js y-axis category
+// labels (Thai text, often with no spaces) never get clipped on narrow
+// screens. Returns an array of lines (Chart.js renders each on its own row).
+function wrapLabel(str, maxCharsPerLine){
+  str = String(str||"").trim();
+  if(!str) return str;
+  if(str.length <= maxCharsPerLine) return str;
+  if(str.includes(" ")){
+    const words = str.split(" ").filter(Boolean);
+    const lines = []; let cur = "";
+    words.forEach(w=>{
+      const test = cur ? cur + " " + w : w;
+      if(test.length > maxCharsPerLine && cur){ lines.push(cur); cur = w; }
+      else cur = test;
+    });
+    if(cur) lines.push(cur);
+    return lines.length ? lines : [str];
+  }
+  const lines = [];
+  for(let i=0;i<str.length;i+=maxCharsPerLine) lines.push(str.slice(i,i+maxCharsPerLine));
+  return lines;
+}
+const IS_NARROW = () => window.innerWidth <= 640;
+
+function buildCurriculumColorMap(labels){
+  const used = new Set();
+  const map = {};
+  const unresolved = [];
+  labels.forEach(c=>{
+    const preset = CURRICULUM_COLORS[c];
+    if(preset && !used.has(preset)){ map[c]=preset; used.add(preset); }
+    else unresolved.push(c);
+  });
+  let fbIdx = 0;
+  unresolved.forEach(c=>{
+    let color;
+    do{
+      color = CURRICULUM_FALLBACK_PALETTE[fbIdx % CURRICULUM_FALLBACK_PALETTE.length];
+      fbIdx++;
+    } while(used.has(color) && fbIdx < 200);
+    map[c] = color;
+    used.add(color);
+  });
+  return map;
+}
+
+let DATA = [];
+let charts = {};
+Chart.register(ChartDataLabels);
+Chart.defaults.set('plugins.datalabels', { display: false });
+let filtersReady = false;
+let isFetching = false;
+const AUTO_REFRESH_MS = 60000; // 60 seconds
+let refreshTimer = null;
+let countdownTimer = null;
+let nextRefreshAt = null;
+
+/* ================= LOAD (live via JSONP, then fallback) =================
+   Uses a <script> tag (JSONP) instead of fetch() so the browser never
+   applies CORS to the request — this is the standard way to read a
+   public Google Sheet's gviz endpoint from an external page. Requires
+   the sheet to be shared as "Anyone with the link can view". */
+function tryLiveLoad(isRefresh){
+  if(isFetching) return;
+  const url = gvizUrlFor(currentYear);
+  if(!url){
+    // No sheet wired up for this year yet — show a clear empty state, don't borrow other years' data.
+    DATA = [];
+    setSync("nosource", `ยังไม่ได้เชื่อมข้อมูลปี ${currentYear} (รอลิงก์ Google Sheet)`);
+    render(isRefresh);
+    return;
+  }
+  isFetching = true;
+  const btn = document.getElementById("refreshBtn");
+  if(btn) btn.disabled = true;
+  if(isRefresh){
+    document.getElementById("syncDot").className = "dot warn";
+  }
+
+  const yearAtRequest = currentYear; // guard against year switch mid-flight
+  const cbName = "gvizCB_" + Date.now();
+  let settled = false;
+
+  const timeout = setTimeout(()=>{
+    if(settled) return;
+    settled = true;
+    cleanup();
+    finishLoad(false, "หมดเวลาเชื่อมต่อ Google Sheets", isRefresh, yearAtRequest);
+  }, 7000);
+
+  function cleanup(){
+    delete window[cbName];
+    if(script && script.parentNode) script.parentNode.removeChild(script);
+  }
+
+  window[cbName] = function(json){
+    if(settled) return;
+    settled = true;
+    clearTimeout(timeout);
+    cleanup();
+    if(yearAtRequest !== currentYear) { isFetching = false; return; } // user switched years before this resolved
+    try{
+      const rows = parseGviz(json);
+      if(rows.length){ DATA = rows; finishLoad(true, null, isRefresh, yearAtRequest); }
+      else { finishLoad(false, "เชื่อมต่อสำเร็จแต่ไม่พบแถวข้อมูล", isRefresh, yearAtRequest); }
+    }catch(e){
+      finishLoad(false, "อ่านข้อมูลจากชีตไม่สำเร็จ", isRefresh, yearAtRequest);
+    }
+  };
+
+  const script = document.createElement("script");
+  script.src = `${url}&tqx=out:json;responseHandler:${cbName}`;
+  script.onerror = function(){
+    if(settled) return;
+    settled = true;
+    clearTimeout(timeout);
+    cleanup();
+    if(yearAtRequest !== currentYear) { isFetching = false; return; }
+    finishLoad(false, "ไม่สามารถเชื่อมต่อ Google Sheets ได้ (ตรวจสอบสิทธิ์การแชร์)", isRefresh, yearAtRequest);
+  };
+  document.head.appendChild(script);
+}
+
+function finishLoad(success, errMsg, isRefresh, year){
+  isFetching = false;
+  const btn = document.getElementById("refreshBtn");
+  if(btn) btn.disabled = false;
+
+  if(success){
+    setSync("live");
+  } else if(!isRefresh){
+    // first load failed -> fall back to snapshot (only if this year has one)
+    useFallback(year, errMsg + " — แสดงข้อมูลสำรองล่าสุด");
+  } else {
+    // a background refresh failed -> keep showing existing data, just note it
+    setSync("stale", errMsg + " (แสดงข้อมูลล่าสุดที่เคยดึงได้)");
+  }
+  render(isRefresh);
+  scheduleAutoRefresh();
+}
+
+function scheduleAutoRefresh(){
+  if(refreshTimer) clearTimeout(refreshTimer);
+  if(countdownTimer) clearInterval(countdownTimer);
+  nextRefreshAt = Date.now() + AUTO_REFRESH_MS;
+  refreshTimer = setTimeout(()=>{
+    if(document.hidden){ scheduleAutoRefresh(); return; } // skip while tab hidden, try again later
+    tryLiveLoad(true);
+  }, AUTO_REFRESH_MS);
+  countdownTimer = setInterval(updateCountdown, 1000);
+  updateCountdown();
+}
+
+function updateCountdown(){
+  const meta = document.getElementById("syncMeta");
+  if(!meta || !nextRefreshAt) return;
+  const secs = Math.max(0, Math.round((nextRefreshAt - Date.now())/1000));
+  meta.textContent = isFetching ? "กำลังรีเฟรช…" : `รีเฟรชอัตโนมัติใน ${secs}s`;
+}
+
+document.addEventListener("visibilitychange", ()=>{
+  if(!document.hidden && nextRefreshAt && Date.now() >= nextRefreshAt){
+    tryLiveLoad(true);
+  }
+});
+
+document.getElementById("refreshBtn").addEventListener("click", ()=> tryLiveLoad(true));
+
+function switchYear(year){
+  currentYear = year;
+  document.querySelectorAll(".year-tab").forEach(btn=>{
+    btn.classList.toggle("active", btn.dataset.year === year);
+  });
+  document.getElementById("yearView").style.display = "";
+  document.getElementById("overallView").style.display = "none";
+  const mhYearWrap = document.getElementById("mhYearWrap");
+  if(mhYearWrap) mhYearWrap.style.display = "";
+  const mhYear = document.getElementById("mhYear");
+  if(mhYear) mhYear.textContent = year;
+  const footerYear = document.getElementById("footerYear");
+  if(footerYear) footerYear.textContent = year;
+  if(refreshTimer) clearTimeout(refreshTimer);
+  if(countdownTimer) clearInterval(countdownTimer);
+  DATA = [];
+  render(false);
+  tryLiveLoad(false);
+}
+
+function showOverall(){
+  document.querySelectorAll(".year-tab").forEach(btn=>{
+    btn.classList.toggle("active", btn.dataset.year === "overall");
+  });
+  if(refreshTimer) clearTimeout(refreshTimer);
+  if(countdownTimer) clearInterval(countdownTimer);
+  document.getElementById("yearView").style.display = "none";
+  document.getElementById("overallView").style.display = "";
+  const mhYearWrap = document.getElementById("mhYearWrap");
+  if(mhYearWrap) mhYearWrap.style.display = "none";
+}
+
+document.querySelectorAll(".year-tab").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    if(btn.dataset.year === "overall") showOverall();
+    else switchYear(btn.dataset.year);
+  });
+});
+
+function parseGviz(json){
+  const cols = json.table.cols.map(c => (c.label||"").trim());
+  const idxMap = {};
+  cols.forEach((label,i)=>{ if(HEADER_MAP[label]) idxMap[HEADER_MAP[label]] = i; });
+  if(Object.keys(idxMap).length < 5) return [];
+
+  const rows = [];
+  (json.table.rows||[]).forEach(r=>{
+    const cells = r.c;
+    const get = key => {
+      const i = idxMap[key];
+      if(i===undefined || !cells[i]) return "";
+      return cells[i].f !== undefined && cells[i].f !== null ? cells[i].f : (cells[i].v ?? "");
+    };
+    const title = get("title_th");
+    if(!title || !String(title).trim()) return;
+    const rec = {
+      no: get("no") || (rows.length+1),
+      title_th: String(title).trim(),
+      title_en: String(get("title_en")||"").trim(),
+      recipient: String(get("recipient")||"").trim(),
+      curriculum: String(get("curriculum")||"").trim(),
+      student_id: String(get("student_id")||"").trim(),
+      advisor: String(get("advisor")||"").trim(),
+      duration: String(get("duration")||"").trim(),
+      contract_period: String(get("contract_period")||"").trim(),
+      budget: Number(String(get("budget")||"0").replace(/[,​ ]/g,"")) || 0,
+      status: String(get("status")||"").trim(),
+      degree: String(get("degree")||"").trim(),
+      publish_level: String(get("publish_level")||"").replace(/\u200b/g,"").trim(),
+      attachment: String(get("attachment")||"").trim(),
+    };
+    STEP_KEYS.forEach(k=>{
+      const v = String(get(k)||"").trim();
+      rec[k] = v ? 1 : 0;
+    });
+    rows.push(rec);
+  });
+  return rows;
+}
+
+function useFallback(year, msg){
+  const snap = FALLBACK_BY_YEAR[year];
+  if(snap){
+    DATA = snap.map(r=>({...r}));
+    setSync("fallback", msg);
+  } else {
+    DATA = [];
+    setSync("nosource", `ยังไม่มีข้อมูลสำรองสำหรับปี ${year} — ${msg}`);
+  }
+}
+
+let lastSyncedAt = null;
+
+function setSync(mode, msg){
+  const dot = document.getElementById("syncDot");
+  const txt = document.getElementById("syncText");
+  if(mode==="live"){
+    lastSyncedAt = new Date();
+    dot.className="dot"; txt.textContent = `เชื่อมต่อสด — ปี ${currentYear} · ${DATA.length} โครงการจาก Google Sheets`;
+  } else if(mode==="stale"){
+    dot.className="dot warn"; txt.textContent = msg || "ใช้ข้อมูลล่าสุดที่เคยดึงได้";
+  } else if(mode==="nosource"){
+    dot.className="dot warn"; txt.textContent = msg || `ยังไม่ได้เชื่อมข้อมูลปี ${currentYear}`;
+  } else {
+    dot.className="dot warn"; txt.textContent = msg || "แสดงข้อมูลสำรอง";
+  }
+}
+
+/* ================= RENDER ================= */
+function render(isRefresh){
+  renderKPI();
+  renderCharts();
+  renderAdvisor();
+  setupFilters();
+  applyFilters(); // respects any search/filter already entered, incl. across refreshes
+}
+
+function renderKPI(){
+  const total = DATA.length;
+  const budgetSum = DATA.reduce((s,d)=>s+d.budget,0);
+  const active = DATA.filter(d=>d.status.includes("ระหว่าง")).length;
+  const closed = DATA.filter(d=>d.status.includes("ปิดโครงการ")).length;
+  const refunded = DATA.filter(d=>d.status.includes("คืนทุน")).length;
+  const curricula = new Set(DATA.map(d=>d.curriculum)).size;
+
+  const kpis = [
+    {label:"โครงการทั้งหมด", value: total, note:`ครอบคลุม ${curricula} หลักสูตร`},
+    {label:"งบประมาณรวม", value: "฿"+budgetSum.toLocaleString(), note:"ทุนวิจัยนักศึกษา "+currentYear},
+    {label:"อยู่ระหว่างดำเนินการ", value: active, note: total? Math.round(active/total*100)+"% ของทั้งหมด":"", type:"active"},
+    {label:"ปิดโครงการแล้ว", value: closed, note: total? Math.round(closed/total*100)+"% ของทั้งหมด":"", type:"closed"},
+    {label:"คืนทุน", value: refunded, note: total? Math.round(refunded/total*100)+"% ของทั้งหมด":"", type:"refund"},
+  ];
+  document.getElementById("kpiGrid").innerHTML = kpis.map(k=>`
+    <div class="kpi-card${k.type ? " kpi-"+k.type : ""}">
+      <div class="kpi-label">${k.label}</div>
+      <div class="kpi-value">${k.value}</div>
+      <div class="kpi-note">${k.note}</div>
+    </div>`).join("");
+}
+
+function renderCharts(){
+  Object.values(charts).forEach(c=>c && c.destroy());
+
+  const byCurCount = {};
+  DATA.forEach(d=>{ byCurCount[d.curriculum] = (byCurCount[d.curriculum]||0) + 1; });
+  const curLabels = Object.keys(byCurCount).sort((a,b)=> byCurCount[b]-byCurCount[a]);
+
+  // Status donut
+  const byStatus = {};
+  DATA.forEach(d=>{ const s=d.status||"ไม่ระบุ"; byStatus[s]=(byStatus[s]||0)+1; });
+  const statusColors = { "อยู่ระหว่างดำเนินการ":"#c69a3a", "ปิดโครงการ":"#6f8464", "คืนทุนวิจัย":"#8a2e2e" };
+  charts.status = new Chart(document.getElementById("statusChart"), {
+    type:"doughnut",
+    data:{ labels:Object.keys(byStatus), datasets:[{ data:Object.values(byStatus), backgroundColor: Object.keys(byStatus).map(s=>statusColors[s]||"#8a8060"), borderColor:"#f8faf3", borderWidth:2 }]},
+    options:{ responsive:true, maintainAspectRatio:false, cutout:"62%",
+      plugins:{
+        legend:{ position:"bottom", labels:{ font:{family:"Sarabun",size:11}, color:"#1c4636", padding:14 } },
+        datalabels:{ display:true, color:"#fff", font:{family:"Sarabun", weight:600, size:12}, formatter:v=>v }
+      } }
+  });
+
+  // Curriculum count bar (horizontal)
+  const curriColorMap = buildCurriculumColorMap(curLabels);
+  const curWrapLen = IS_NARROW() ? 9 : 14;
+  charts.curriculum = new Chart(document.getElementById("curriculumChart"), {
+    type:"bar",
+    data:{ labels: curLabels.map(c=>wrapLabel(c,curWrapLen)), datasets:[{ data: curLabels.map(c=>byCurCount[c]), backgroundColor: curLabels.map(c=>curriColorMap[c]), borderRadius:6 }]},
+    options:{ indexAxis:"y", responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        datalabels:{ display:true, anchor:"end", align:"right", color:"#1c4636", font:{family:"Sarabun", weight:600, size:12}, formatter:v=>v }
+      },
+      layout:{ padding:{ right: 22 } },
+      scales:{ x:{ grid:{color:"rgba(28,70,54,0.07)"}, ticks:{stepSize:1,font:{size:10}, color:"#67735f"} },
+               y:{ grid:{display:false}, afterFit:(scale)=>{ scale.width = IS_NARROW() ? 86 : 108; }, ticks:{font:{family:"Sarabun",size:IS_NARROW()?9.5:10.5}, color:"#1c4636"} } }
+    }
+  });
+
+  // Degree level pie
+  const byDegree = {};
+  DATA.forEach(d=>{ const g=d.degree||"ไม่ระบุ"; byDegree[g]=(byDegree[g]||0)+1; });
+  charts.degree = new Chart(document.getElementById("degreeChart"), {
+    type:"pie",
+    data:{ labels:Object.keys(byDegree), datasets:[{ data:Object.values(byDegree), backgroundColor:["#1c4636","#c69a3a","#8a2e2e"], borderColor:"#f8faf3", borderWidth:2 }]},
+    options:{ responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{ position:"bottom", labels:{ font:{family:"Sarabun",size:10.5}, color:"#1c4636", padding:10 } },
+        datalabels:{ display:true, color:"#fff", font:{family:"Sarabun", weight:600, size:12}, formatter:v=>v }
+      } }
+  });
+
+  // Publish level bar removed per request
+}
+
+function renderAdvisor(){
+  const byAdvisor = {};
+  DATA.forEach(d=>{ const a=d.advisor||"ไม่ระบุ"; byAdvisor[a]=(byAdvisor[a]||0)+1; });
+  const sorted = Object.entries(byAdvisor).sort((a,b)=>b[1]-a[1]);
+  if(charts.advisor) charts.advisor.destroy();
+  const advWrapLen = IS_NARROW() ? 13 : 20;
+  const wrappedLabels = sorted.map(s=>wrapLabel(s[0], advWrapLen));
+  const maxLines = Math.max(1, ...wrappedLabels.map(l=>Array.isArray(l)?l.length:1));
+  const rowH = IS_NARROW() ? (26 + maxLines*13) : (30 + maxLines*13);
+  const advisorBox = document.getElementById("advisorInner");
+  if(advisorBox) advisorBox.style.height = Math.max(280, sorted.length*rowH + 30) + "px";
+  charts.advisor = new Chart(document.getElementById("advisorChart"), {
+    type:"bar",
+    data:{ labels: wrappedLabels, datasets:[{ data: sorted.map(s=>s[1]), backgroundColor:"#c69a3a", borderRadius:6, barThickness:22, categoryPercentage:0.6, barPercentage:0.7 }]},
+    options:{ indexAxis:"y", responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        datalabels:{ display:true, anchor:"end", align:"right", color:"#1c4636", font:{family:"Sarabun", weight:600, size:12}, formatter:v=>v }
+      },
+      layout:{ padding:{ right: 22 } },
+      scales:{ x:{ grid:{color:"rgba(28,70,54,0.07)"}, ticks:{stepSize:1,font:{size:10},color:"#67735f"} },
+               y:{ grid:{display:false}, afterFit:(scale)=>{ scale.width = IS_NARROW() ? 118 : 165; }, ticks:{font:{family:"Sarabun",size:IS_NARROW()?9.5:10.5}, color:"#1c4636"} } }
+    }
+  });
+}
+
+function setupFilters(){
+  const curSel = document.getElementById("curriculumFilter");
+  const statSel = document.getElementById("statusFilter");
+  const advSel = document.getElementById("advisorFilter");
+  const prevCur = curSel.value;
+  const prevStat = statSel.value;
+  const prevAdv = advSel.value;
+
+  const curricula = [...new Set(DATA.map(d=>d.curriculum))].filter(Boolean);
+  const statuses = [...new Set(DATA.map(d=>d.status))].filter(Boolean);
+  const advisors = [...new Set(DATA.map(d=>d.advisor))].filter(Boolean).sort((a,b)=>a.localeCompare(b,'th'));
+  curSel.innerHTML = `<option value="">ทุกหลักสูตร</option>` + curricula.map(c=>`<option value="${c}">${c}</option>`).join("");
+  statSel.innerHTML = `<option value="">ทุกสถานะ</option>` + statuses.map(s=>`<option value="${s}">${s}</option>`).join("");
+  advSel.innerHTML = `<option value="">ทุกอาจารย์ที่ปรึกษา</option>` + advisors.map(a=>`<option value="${a}">${a}</option>`).join("");
+
+  // keep the user's current filter selection across auto-refreshes
+  if(curricula.includes(prevCur)) curSel.value = prevCur;
+  if(statuses.includes(prevStat)) statSel.value = prevStat;
+  if(advisors.includes(prevAdv)) advSel.value = prevAdv;
+
+  if(!filtersReady){
+    document.getElementById("searchInput").addEventListener("input", applyFilters);
+    curSel.addEventListener("change", applyFilters);
+    statSel.addEventListener("change", applyFilters);
+    advSel.addEventListener("change", applyFilters);
+    filtersReady = true;
+  }
+}
+
+function applyFilters(){
+  const q = document.getElementById("searchInput").value.trim().toLowerCase();
+  const cur = document.getElementById("curriculumFilter").value;
+  const stat = document.getElementById("statusFilter").value;
+  const adv = document.getElementById("advisorFilter").value;
+  const filtered = DATA.filter(d=>{
+    const hay = (d.title_th+" "+d.title_en+" "+d.recipient+" "+d.student_id).toLowerCase();
+    if(q && !hay.includes(q)) return false;
+    if(cur && d.curriculum !== cur) return false;
+    if(stat && d.status !== stat) return false;
+    if(adv && d.advisor !== adv) return false;
+    return true;
+  });
+  renderTable(filtered);
+}
+
+function badgeClass(status){
+  if(status.includes("ปิดโครงการ")) return "closed";
+  if(status.includes("คืนทุน")) return "refund";
+  return "active";
+}
+
+function formatRecipients(recipient){
+  const names = String(recipient||"").split(/\s{2,}/).map(n=>n.trim()).filter(Boolean);
+  if(names.length <= 1) return recipient || "—";
+  return names.map((n,i)=>`${i+1}. ${n}`).join("<br>");
+}
+
+function currentStepLabel(d){
+  let lastDone = -1;
+  STEP_KEYS.forEach((k,i)=>{ if(d[k]==1) lastDone = i; });
+  if(lastDone === -1) return `<span style="color:var(--text-muted);">ยังไม่เริ่มดำเนินการ</span>`;
+  const label = STEP_LABELS[STEP_KEYS[lastDone]];
+  return `ถึงขั้นตอน: <b>${label}</b> <span style="color:var(--text-muted);">(${lastDone+1}/${STEP_KEYS.length})</span>`;
+}
+
+function rowStatusClass(status){
+  status = status || "";
+  if(status.includes("คืนทุน")) return "row-refund";
+  if(status.includes("ปิดโครงการ")) return "row-closed";
+  if(status.includes("อยู่ระหว่าง")) return "row-active";
+  return "";
+}
+
+function formatPeriod(val){
+  val = String(val||"").trim();
+  if(!val) return "—";
+  // Break onto a new line right after a " - " date-range dash
+  return val.replace(/\s*-\s*/, " -<br>");
+}
+
+function attachmentCell(attachment){
+  let val = String(attachment||"").replace(/[\u200b\u200c\u200d\ufeff]/g,"").trim();
+  if(!val || val==="-") return `<span style="color:var(--text-muted);">—</span>`;
+  const m = val.match(/https?:\/\/[^\s"'<>]+/i);
+  const url = m ? m[0].replace(/[),.]+$/,"") : null; // strip trailing punctuation accidentally captured
+  const href = url || val;
+  return `<a href="${href}" target="_blank" rel="noopener noreferrer" class="attach-icon" title="เปิดไฟล์แนบ">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+      <path d="M14 2v6h6"/>
+      <text x="7" y="17" font-size="6.2" font-family="Arial, sans-serif" font-weight="700" stroke="none" fill="currentColor">PDF</text>
+    </svg>
+  </a>`;
+}
+
+function renderTable(rows){
+  document.getElementById("tableBody").innerHTML = rows.map(d=>{
+    const steps = STEP_KEYS.map(k=>`<div class="step-dot ${d[k]==1?'done':''}" title="${STEP_LABELS[k]}"></div>`).join("");
+    return `<tr class="${rowStatusClass(d.status)}">
+      <td data-label="#" style="white-space:nowrap; overflow:visible; text-align:center;">${d.no}</td>
+      <td data-label="ชื่อโครงการ">
+        <div class="proj-title">${d.title_th}</div>
+        ${d.title_en ? `<div class="proj-en">${d.title_en}</div>` : ""}
+      </td>
+      <td data-label="หลักสูตร">${d.curriculum}</td>
+      <td data-label="ระดับ">${d.degree||"—"}</td>
+      <td data-label="ผู้รับทุน / ที่ปรึกษา" style="font-size:12px;">${formatRecipients(d.recipient)}<br><span style="color:var(--text-muted); font-size:11px;">${d.advisor}</span></td>
+      <td data-label="งบประมาณ" class="budget-cell">฿${d.budget.toLocaleString()}</td>
+      <td data-label="ระยะเวลาโครงการ">${formatPeriod(d.duration)}</td>
+      <td data-label="ระยะเวลาตามสัญญา">${formatPeriod(d.contract_period)}</td>
+      <td data-label="สถานะ"><span class="badge ${badgeClass(d.status)}">${d.status||"—"}</span></td>
+      <td data-label="ขั้นตอน">
+        <div class="steps-mini">${steps}</div>
+        <div class="step-current-label">${currentStepLabel(d)}</div>
+      </td>
+      <td data-label="Link" style="text-align:center;">${attachmentCell(d.attachment)}</td>
+    </tr>`;
+  }).join("") || `<tr><td colspan="11" style="text-align:center; padding:30px; color:var(--text-muted);">ไม่พบรายการที่ตรงกับการค้นหา</td></tr>`;
+}
+
+tryLiveLoad(false);
+
+/* ================= TREND CHART (สรุปผล — separate sheet tab, not tied to year switcher) ================= */
+const TREND_GID = "373763347";
+const TREND_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?gid=${TREND_GID}`;
+const TREND_FALLBACK = [
+  {year:"2566", count:15, budget:150000, done:12, ratio:0.80},
+  {year:"2567", count:8,  budget:155000, done:7,  ratio:0.875},
+  {year:"2568", count:18, budget:225000, done:14, ratio:0.7778},
+  {year:"2569", count:16, budget:417000, done:3,  ratio:0.1875}
+];
+
+function renderTrendChart(rows){
+  const labels = rows.map(r=>r.year);
+
+  // 1) จำนวนโครงการทั้งหมด
+  new Chart(document.getElementById("trendCountChart"), {
+    type:"bar",
+    data:{ labels, datasets:[
+      { label:"จำนวนโครงการทั้งหมด", data: rows.map(r=>r.count), backgroundColor:"#c69a3a", borderRadius:6, maxBarThickness:70 }
+    ]},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      layout:{ padding:{ top: 28 } },
+      plugins:{ legend:{ display:false },
+        datalabels:{ display:true, anchor:"end", align:"top", offset:6, clamp:true, color:"#1c4636", font:{family:"Sarabun", weight:600, size:12} } },
+      scales:{ x:{ grid:{display:false}, ticks:{font:{family:"Sarabun", size:12}, color:"#1c4636"} },
+                y:{ beginAtZero:true, suggestedMax: Math.max(...rows.map(r=>r.count))*1.25, grid:{color:"rgba(28,70,54,0.07)"}, ticks:{font:{size:10.5}, color:"#67735f"} } }
+    }
+  });
+
+  // 2) จำนวนโครงการที่ปิดแล้ว
+  new Chart(document.getElementById("trendDoneChart"), {
+    type:"bar",
+    data:{ labels, datasets:[
+      { label:"จำนวนโครงการที่ปิดแล้ว", data: rows.map(r=>r.done), backgroundColor:"#3f7a63", borderRadius:6, maxBarThickness:70 }
+    ]},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      layout:{ padding:{ top: 28 } },
+      plugins:{ legend:{ display:false },
+        datalabels:{ display:true, anchor:"end", align:"top", offset:6, clamp:true, color:"#1c4636", font:{family:"Sarabun", weight:600, size:12} } },
+      scales:{ x:{ grid:{display:false}, ticks:{font:{family:"Sarabun", size:12}, color:"#1c4636"} },
+                y:{ beginAtZero:true, suggestedMax: Math.max(...rows.map(r=>r.done))*1.25, grid:{color:"rgba(28,70,54,0.07)"}, ticks:{font:{size:10.5}, color:"#67735f"} } }
+    }
+  });
+
+  // 3) งบประมาณรายปี
+  new Chart(document.getElementById("trendBudgetChart"), {
+    type:"bar",
+    data:{ labels, datasets:[
+      { label:"งบประมาณ (บาท)", data: rows.map(r=>r.budget), backgroundColor:"#8a2e2e", borderRadius:6, maxBarThickness:70 }
+    ]},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      layout:{ padding:{ top: 28 } },
+      plugins:{ legend:{ display:false },
+        datalabels:{ display:true, anchor:"end", align:"top", offset:6, clamp:true, color:"#8a2e2e", font:{family:"Sarabun", weight:600, size:11}, formatter:v=>"฿"+v.toLocaleString() } },
+      scales:{ x:{ grid:{display:false}, ticks:{font:{family:"Sarabun", size:12}, color:"#1c4636"} },
+                y:{ beginAtZero:true, suggestedMax: Math.max(...rows.map(r=>r.budget))*1.25, grid:{color:"rgba(28,70,54,0.07)"}, ticks:{font:{size:10}, color:"#67735f", callback:v=>"฿"+v.toLocaleString()} } }
+    }
+  });
+
+  // 3) อัตราการปิดโครงการรายปี (สัดส่วนที่เสร็จ)
+  new Chart(document.getElementById("trendCloseRateChart"), {
+    type:"line",
+    data:{ labels, datasets:[
+      { label:"อัตราการปิดโครงการ", data: rows.map(r=>+(r.ratio*100).toFixed(1)), borderColor:"#3f7a63", backgroundColor:"rgba(63,122,99,0.15)", fill:true, tension:0.3, pointRadius:5, pointBackgroundColor:"#3f7a63" }
+    ]},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      layout:{ padding:{ top: 28 } },
+      plugins:{ legend:{ display:false },
+        datalabels:{ display:true, align:"top", offset:6, clamp:true, color:"#1c4636", font:{family:"Sarabun", weight:600, size:12}, formatter:v=>v+"%" } },
+      scales:{ x:{ grid:{display:false}, ticks:{font:{family:"Sarabun", size:12}, color:"#1c4636"} },
+                y:{ beginAtZero:true, max:100, grid:{color:"rgba(28,70,54,0.07)"}, ticks:{font:{size:10.5}, color:"#67735f", callback:v=>v+"%"} } }
+    }
+  });
+}
+
+(function loadTrend(){
+  const cbName = "trendCB_" + Date.now();
+  let settled = false;
+  const timeout = setTimeout(()=>{ if(settled) return; settled=true; cleanup(); renderTrendChart(TREND_FALLBACK); }, 7000);
+  function cleanup(){ delete window[cbName]; if(script.parentNode) script.parentNode.removeChild(script); }
+  window[cbName] = function(json){
+    if(settled) return; settled = true; clearTimeout(timeout); cleanup();
+    try{
+      const table = json.table;
+      const cols = table.cols.map(c=>(c.label||"").trim());
+      const idx = {
+        year: cols.indexOf("ปีการศึกษา"),
+        count: cols.indexOf("จำนวนทุน"),
+        budget: cols.indexOf("งบประมาณ"),
+        done: cols.indexOf("จำนวนทุนที่แล้วเสร็จ"),
+        ratio: cols.indexOf("สัดส่วนที่เสร็จ")
+      };
+      const rows = table.rows.map(row=>{
+        const c = row.c;
+        const get = i => (i<0 || !c[i]) ? null : (c[i].v ?? null);
+        return {
+          year: String(get(idx.year)||"").trim(),
+          count: Number(get(idx.count))||0,
+          budget: Number(get(idx.budget))||0,
+          done: Number(get(idx.done))||0,
+          ratio: Number(get(idx.ratio))||0
+        };
+      }).filter(r=>r.year);
+      renderTrendChart(rows.length ? rows : TREND_FALLBACK);
+    }catch(e){
+      renderTrendChart(TREND_FALLBACK);
+    }
+  };
+  const script = document.createElement("script");
+  script.src = `${TREND_URL}&tqx=out:json;responseHandler:${cbName}`;
+  script.onerror = function(){ if(settled) return; settled=true; clearTimeout(timeout); cleanup(); renderTrendChart(TREND_FALLBACK); };
+  document.head.appendChild(script);
+})();
+</script>
+</body>
+</html>
